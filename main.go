@@ -66,6 +66,7 @@ func main() {
 	// -check || --check
 	case lib.CheckUpdatePkg:
 		if flag.NArg() <= 0 {
+			updateExists := false
 			packageMap := lib.ListPackages()
 			for packageName, packageVersion := range packageMap {
 				newVersion, err := lib.GetLatestVersionFromAUR(packageName)
@@ -76,6 +77,10 @@ func main() {
 					fmt.Println("There is an update for the following packages:")
 					fmt.Printf("%s%s%s %s -> %s\n", lib.ColorRed, packageName, lib.ColorNone, packageVersion, newVersion)
 				}
+			}
+			if !updateExists {
+				fmt.Println("There is nothing to do.")
+				fmt.Println("Have a good day!")
 			}
 			return
 		}
