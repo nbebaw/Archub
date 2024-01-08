@@ -1,5 +1,6 @@
 # Archub
 Archub is a command-line tool designed for managing packages in Arch Linux's AUR (Arch User Repository).
+![GitHub](https://img.shields.io/github/license/nbebaw/Archub) ![GitHub all releases](https://img.shields.io/github/downloads/nbebaw/Archub/total) ![GitHub repo size](https://img.shields.io/github/repo-size/nbebaw/Archub) ![GitHub issues](https://img.shields.io/github/issues/nbebaw/Archub) ![GitHub closed issues](https://img.shields.io/github/issues-closed/nbebaw/Archub) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/nbebaw/Archub) ![GitHub last commit](https://img.shields.io/github/last-commit/nbebaw/Archub)
 
 ## Dependencies
 - <b>git</b>
