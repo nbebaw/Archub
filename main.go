@@ -131,12 +131,12 @@ func main() {
 			}
 		}
 		return
-	// -l || --l
+	// -l || --list
 	case lib.ListPkg || lib.ListPkgAlias:
 		if flag.NArg() <= 0 {
 			packageMap := lib.ListPackages()
 			for packageName, packageVersion := range packageMap {
-				fmt.Printf("Package: %s, Version: %s\n", packageName, packageVersion)
+				fmt.Printf("%sPackage:%s %s, %sVersion:%s %s\n", lib.ColorGreen, lib.ColorNone, packageName, lib.ColorLightRed, lib.ColorNone, packageVersion)
 			}
 			return
 		}

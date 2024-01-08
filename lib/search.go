@@ -49,7 +49,7 @@ func MainSearch(pkg_search string) {
 
 	fmt.Printf("Search results for %s:\n", packageName)
 	for _, pkg := range results {
-		fmt.Printf("%v) %s - v%s\nDescription: %s\n\n", counter, pkg.Name, pkg.Version, pkg.Description)
+		fmt.Printf("%s%v)%s %s%s%s - v%s\n%sDescription:%s %s\n\n", ColorYellow, counter, ColorNone, ColorLightRed, pkg.Name, ColorNone, pkg.Version, ColorGreen, ColorNone, pkg.Description)
 		counter++
 	}
 }

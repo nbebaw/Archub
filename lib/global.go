@@ -1,8 +1,11 @@
 package lib
 
 const (
-	ColorRed  = "\033[0;31m"
-	ColorNone = "\033[0m"
+	ColorRed      = "\033[0;31m"
+	ColorGreen    = "\033[1;32m"
+	ColorYellow   = "\033[1;33m"
+	ColorLightRed = "\033[1;91m"
+	ColorNone     = "\033[0m"
 )
 
 var (
