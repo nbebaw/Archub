@@ -59,4 +59,4 @@ archub --check
 Feel free to contribute by opening issues or pull requests.
 
 ## License
-This project is licensed under the Apache License.
+This project is licensed under the MIT License.
