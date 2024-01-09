@@ -46,7 +46,7 @@ func getArchubDirSize() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("%s will be free\n", convertBytes(float64(totalSize), 1024.0))
+	fmt.Printf("%s is now a free space\n", convertBytes(float64(totalSize), 1024.0))
 }
 
 func MainCleanUp() {

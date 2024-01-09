@@ -23,4 +23,4 @@ go.work
 cleanup.sh
 note.txt
 preDeploy.sh
-archub_amd64.tar.gz
+*.tar.gz

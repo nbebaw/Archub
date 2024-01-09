@@ -23,6 +23,11 @@ func main() {
 		return
 	// -version || --version
 	case lib.ShowVersion:
+		if len(os.Args) > 2 {
+			fmt.Println("Error: Illegal option or argument.")
+			flag.Usage()
+			return
+		}
 		if flag.NArg() <= 0 {
 			fmt.Printf("archub v%s\n", Version)
 			return
@@ -33,15 +38,25 @@ func main() {
 		return
 	// -help || --help
 	case lib.Help:
+		if len(os.Args) > 2 {
+			fmt.Println("Error: Illegal option or argument.")
+			flag.Usage()
+			return
+		}
 		lib.MainHelp()
 		return
 
-	// -c || --c
+	// -c || --clean
 	case lib.CleanUp || lib.CleanUpAlias:
+		if len(os.Args) > 2 {
+			fmt.Println("Error: Illegal option or argument.")
+			flag.Usage()
+			return
+		}
 		lib.MainCleanUp()
 		return
 
-	// -s || --s
+	// -s || --search
 	case lib.SearchPkg || lib.SearchPkgAlias:
 		if flag.NArg() > 0 {
 			argumentPkg := flag.Arg(0)
@@ -52,7 +67,7 @@ func main() {
 			os.Exit(1)
 		}
 		return
-	// -i || --i
+	// -i || --install
 	case lib.InstallPkg || lib.InstallPkgAlias:
 		if flag.NArg() > 0 {
 			argumentPkg := flag.Arg(0)
@@ -65,6 +80,11 @@ func main() {
 		return
 	// -check || --check
 	case lib.CheckUpdatePkg:
+		if len(os.Args) > 2 {
+			fmt.Println("Options do not allowed together")
+			flag.Usage()
+			return
+		}
 		if flag.NArg() <= 0 {
 			updateExists := false
 			packageMap := lib.ListPackages()
@@ -75,7 +95,7 @@ func main() {
 				}
 				if packageVersion != newVersion {
 					fmt.Println("There is an update for the following packages:")
-					fmt.Printf("%s%s%s %s -> %s\n", lib.ColorRed, packageName, lib.ColorNone, packageVersion, newVersion)
+					fmt.Printf("%s%s%s %s -> %s\n", lib.ColorLightRed, packageName, lib.ColorNone, packageVersion, newVersion)
 				}
 			}
 			if !updateExists {
@@ -90,6 +110,7 @@ func main() {
 		return
 	// -u || --u [package]
 	case lib.UpdatePkg || lib.UpdatePkgAlias:
+		fmt.Println(flag.NArg())
 		if lib.UpdateAllPkg {
 			updateExists := false
 			// If both -u and --all flags are provided without an argument

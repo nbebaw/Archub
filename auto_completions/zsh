@@ -1,0 +1,15 @@
+#compdef archub
+
+local options=(
+  {-s,--search}"[Search a package e.g. archub --search <package>]"
+  {-i,--install}"[Install a package e.g. archub --install <package]"
+  {-c,--clean}"[Clean up all tmp files and folders]"
+  {-l,--list}"[List all AUR installed Packages on your system]"
+  {-u,--update}'[Update a specific Package Sub Option: --all]:--all:(--all)'
+  {-d,--delete}'[Delete a specific Package e.g. archub --delete <package>]'
+  --check"[Check for package updates]"
+  --help"[How to use Archub]"
+  --version"[Version of Archub]"
+)
+
+_arguments $options
