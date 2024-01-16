@@ -48,6 +48,9 @@ func GetLatestVersionFromAUR(packageName string) (string, error) {
 
 	version := strings.Split(output[versionIndex:], "\n")[0]
 	version = strings.TrimPrefix(version, "pkgver=")
+	if strings.Contains(version, "'") {
+		version = strings.Trim(version, "'")
+	}
 
 	return version, nil
 }

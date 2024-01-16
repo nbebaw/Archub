@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
-
 	"github.com/nbebaw/archub/lib"
+	"os"
+	"strings"
 )
 
 var Version = "No Version Provided"
@@ -95,9 +95,11 @@ func main() {
 				}
 				if packageVersion != newVersion {
 					if len(newVersion) != 0 {
-						fmt.Println("There is an update for the following packages:")
-						fmt.Printf("%s%s%s %s -> %s\n", lib.ColorLightRed, packageName, lib.ColorNone, packageVersion, newVersion)
-						updateExists = true
+						if !strings.Contains(newVersion, "${") {
+							fmt.Println("There is an update for the following packages:")
+							fmt.Printf("%s%s%s %s -> %s\n", lib.ColorLightRed, packageName, lib.ColorNone, packageVersion, newVersion)
+							updateExists = true
+						}
 					}
 				}
 			}
@@ -113,7 +115,6 @@ func main() {
 		return
 	// -u || --u [package]
 	case lib.UpdatePkg || lib.UpdatePkgAlias:
-		fmt.Println(flag.NArg())
 		if lib.UpdateAllPkg {
 			updateExists := false
 			// If both -u and --all flags are provided without an argument
