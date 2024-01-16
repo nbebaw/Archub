@@ -94,8 +94,11 @@ func main() {
 					fmt.Println(err)
 				}
 				if packageVersion != newVersion {
-					fmt.Println("There is an update for the following packages:")
-					fmt.Printf("%s%s%s %s -> %s\n", lib.ColorLightRed, packageName, lib.ColorNone, packageVersion, newVersion)
+					if len(newVersion) != 0 {
+						fmt.Println("There is an update for the following packages:")
+						fmt.Printf("%s%s%s %s -> %s\n", lib.ColorLightRed, packageName, lib.ColorNone, packageVersion, newVersion)
+						updateExists = true
+					}
 				}
 			}
 			if !updateExists {
