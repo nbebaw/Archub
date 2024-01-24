@@ -25,4 +25,5 @@ var (
 	SearchPkgAlias  bool
 	InstallPkg      bool
 	InstallPkgAlias bool
+	InfoOfSystem    bool
 )

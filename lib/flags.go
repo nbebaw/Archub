@@ -7,6 +7,7 @@ func DefineFlags() {
 	flag.BoolVar(&ShowVersion, "version", false, "Show version information") // Version
 	flag.BoolVar(&Help, "help", false, "Show help")                          // Help
 	flag.BoolVar(&CheckUpdatePkg, "check", false, "Check for updates")       // Check for updates
+	flag.BoolVar(&InfoOfSystem, "info", false, "info about your system")     // Check for updates
 
 	flag.BoolVar(&CleanUp, "c", false, "Clean up all tmp folders")          // Clean up
 	flag.BoolVar(&CleanUpAlias, "clean", false, "Clean up all tmp folders") // Clean up

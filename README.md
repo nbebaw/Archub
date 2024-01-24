@@ -11,7 +11,7 @@ Archub is a command-line tool designed for managing packages in Arch Linux's AUR
 
 ## Installation without zsh auto completions
 ```sh
-wget https://github.com/nbebaw/Archub/releases/download/v0.0.4/archub
+wget https://github.com/nbebaw/Archub/releases/download/v0.0.5/archub
 chmod +x archub
 sudo mv archub /usr/bin
 ```
@@ -19,7 +19,7 @@ sudo mv archub /usr/bin
 ```sh
 mkdir archub_x86_64
 cd archub_x86_64
-wget https://github.com/nbebaw/Archub/releases/download/v0.0.4/archub_x86_64.tar.gz
+wget https://github.com/nbebaw/Archub/releases/download/v0.0.5/archub_x86_64.tar.gz
 tar -xvf archub_x86_64.tar.gz
 chmod +x archub
 sudo mv archub /usr/bin

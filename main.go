@@ -3,9 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/nbebaw/archub/lib"
 	"os"
 	"strings"
+
+	"github.com/nbebaw/archub/lib"
 )
 
 var Version = "No Version Provided"
@@ -17,6 +18,12 @@ func main() {
 	lib.DefineFlags()
 
 	switch {
+	// --info
+	case lib.InfoOfSystem:
+		lib.CpuInfo()
+		lib.HostInfo()
+		lib.MemoryInfo()
+		return
 	// -d, --delete
 	case lib.DeletePkg || lib.DeletePkgAlias:
 		lib.MainDeletePackage()
@@ -117,6 +124,7 @@ func main() {
 	case lib.UpdatePkg || lib.UpdatePkgAlias:
 		if lib.UpdateAllPkg {
 			updateExists := false
+			var response string
 			// If both -u and --all flags are provided without an argument
 			if flag.NArg() == 0 {
 				packageMap := lib.ListPackages()
@@ -126,14 +134,18 @@ func main() {
 						fmt.Println(err)
 					}
 					if packageVersion != newVersion {
-						var response string
 						fmt.Println("There is an update for the following packages:")
 						fmt.Printf("%s%s%s %s -> %s\n", lib.ColorRed, packageName, lib.ColorNone, packageVersion, newVersion)
-						fmt.Print("Do you want to update all? (y/n)")
-						fmt.Scan(&response)
-						if response == "y" || response == "Y" {
+						if len(response) == 0 {
+							fmt.Print("Do you want to update all? (y/n)")
+							fmt.Scan(&response)
+							if response == "y" || response == "Y" {
+								lib.BuildAndInstall(packageName, archDir)
+							}
+						} else {
 							lib.BuildAndInstall(packageName, archDir)
 						}
+
 						updateExists = true
 					}
 				}

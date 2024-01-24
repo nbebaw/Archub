@@ -8,6 +8,7 @@ local options=(
   {-u,--update}'[Update a specific Package Sub Option: --all]:--all:(--all)'
   {-d,--delete}'[Delete a specific Package e.g. archub --delete <package>]'
   --check"[Check for package updates]"
+  --info"[Info about your system and machine]"
   --help"[How to use Archub]"
   --version"[Version of Archub]"
 )
