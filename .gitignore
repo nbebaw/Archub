@@ -21,6 +21,8 @@ archub
 # Go workspace file
 go.work
 cleanup.sh
+CLAUDE.md
+AGENT.md
 note.txt
 preDeploy.sh
 *.tar.gz

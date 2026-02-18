@@ -2,33 +2,46 @@ package lib
 
 import "flag"
 
+// DefineFlags configures all command-line flags for the Archub application.
+// Each flag is defined with both a short form (e.g., -s) and a long form (e.g., --search).
+// After defining all flags, it sets the custom usage function and parses the command-line arguments.
 func DefineFlags() {
-	// Allowed main options
-	flag.BoolVar(&ShowVersion, "version", false, "Show version information") // Version
-	flag.BoolVar(&Help, "help", false, "Show help")                          // Help
-	flag.BoolVar(&CheckUpdatePkg, "check", false, "Check for updates")       // Check for updates
-	flag.BoolVar(&InfoOfSystem, "info", false, "info about your system")     // Check for updates
+	// Information flags (no package argument required)
+	flag.BoolVar(&ShowVersion, "version", false, "Show version information")
+	flag.BoolVar(&Help, "help", false, "Show help")
+	flag.BoolVar(&CheckUpdatePkg, "check", false, "Check for updates")
+	flag.BoolVar(&InfoOfSystem, "info", false, "info about your system")
 
-	flag.BoolVar(&CleanUp, "c", false, "Clean up all tmp folders")          // Clean up
-	flag.BoolVar(&CleanUpAlias, "clean", false, "Clean up all tmp folders") // Clean up
+	// Cleanup flags (no package argument required)
+	flag.BoolVar(&CleanUp, "c", false, "Clean up all tmp folders")
+	flag.BoolVar(&CleanUpAlias, "clean", false, "Clean up all tmp folders")
 
-	flag.BoolVar(&ListPkg, "l", false, "List all aur installed Packages")         // List
-	flag.BoolVar(&ListPkgAlias, "list", false, "List all aur installed Packages") // List
+	// List flags (no package argument required)
+	flag.BoolVar(&ListPkg, "l", false, "List all aur installed Packages")
+	flag.BoolVar(&ListPkgAlias, "list", false, "List all aur installed Packages")
 
-	flag.BoolVar(&UpdatePkg, "u", false, "Update a Package")           // Update a Package
-	flag.BoolVar(&UpdatePkgAlias, "update", false, "Update a Package") // Update a Package
-	flag.BoolVar(&UpdateAllPkg, "all", false, "Update all packages")   // Update all packages
+	// Update flags (may require package argument)
+	flag.BoolVar(&UpdatePkg, "u", false, "Update a Package")
+	flag.BoolVar(&UpdatePkgAlias, "update", false, "Update a Package")
+	flag.BoolVar(&UpdateAllPkg, "all", false, "Update all packages")
 
-	flag.BoolVar(&DeletePkg, "d", false, "Delete a package")           // Delete a Package
-	flag.BoolVar(&DeletePkgAlias, "delete", false, "Delete a package") // Delete a Package
+	// Delete flags (requires package argument)
+	flag.BoolVar(&DeletePkg, "d", false, "Delete a package")
+	flag.BoolVar(&DeletePkgAlias, "delete", false, "Delete a package")
 
-	flag.BoolVar(&SearchPkg, "s", false, "Search a package")           // Search a package
-	flag.BoolVar(&SearchPkgAlias, "search", false, "Search a package") // Search a package
+	// Search flags (requires package argument)
+	flag.BoolVar(&SearchPkg, "s", false, "Search a package")
+	flag.BoolVar(&SearchPkgAlias, "search", false, "Search a package")
 
-	flag.BoolVar(&InstallPkg, "i", false, "Install a Package")            // Install a package
-	flag.BoolVar(&InstallPkgAlias, "install", false, "Install a Package") // Install a package
+	// Install flags (requires package argument)
+	flag.BoolVar(&InstallPkg, "i", false, "Install a Package")
+	flag.BoolVar(&InstallPkgAlias, "install", false, "Install a Package")
 
-	// Usage
+	// Package info flags (requires package argument)
+	flag.BoolVar(&PkgInfo, "Si", false, "Show package information")
+	flag.BoolVar(&PkgInfoAlias, "pkginfo", false, "Show package information")
+
+	// Set custom usage function and parse command-line arguments
 	flag.Usage = GetHelp
 	flag.Parse()
 }

@@ -4,31 +4,39 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/nbebaw/archub/lib"
 )
 
+// Version is set at build time using ldflags.
+// Example: go build -ldflags "-X main.Version=v1.0.0"
 var Version = "No Version Provided"
 
 func main() {
+	// Initialize Archub temporary directory at startup
 	lib.CreateArchubDir()
 
-	archDir := lib.GetArchhubDirPath()
+	// Get path to temporary directory for package operations
+	archDir := lib.GetArchubDirPath()
+
+	// Define and parse command-line flags
 	lib.DefineFlags()
 
+	// Route to appropriate handler based on flags
 	switch {
-	// --info
+	// Display system information (CPU, memory, host)
 	case lib.InfoOfSystem:
 		lib.CpuInfo()
 		lib.HostInfo()
 		lib.MemoryInfo()
 		return
-	// -d, --delete
+
+	// Delete a package from the system
 	case lib.DeletePkg || lib.DeletePkgAlias:
 		lib.MainDeletePackage()
 		return
-	// -version || --version
+
+	// Display version information
 	case lib.ShowVersion:
 		if len(os.Args) > 2 {
 			fmt.Println("Error: Illegal option or argument.")
@@ -43,7 +51,8 @@ func main() {
 		fmt.Println(os.Args[1], "this flag do not need any argument")
 		flag.Usage()
 		return
-	// -help || --help
+
+	// Display help information
 	case lib.Help:
 		if len(os.Args) > 2 {
 			fmt.Println("Error: Illegal option or argument.")
@@ -53,7 +62,7 @@ func main() {
 		lib.MainHelp()
 		return
 
-	// -c || --clean
+	// Clean up temporary directory
 	case lib.CleanUp || lib.CleanUpAlias:
 		if len(os.Args) > 2 {
 			fmt.Println("Error: Illegal option or argument.")
@@ -63,7 +72,7 @@ func main() {
 		lib.MainCleanUp()
 		return
 
-	// -s || --search
+	// Search for a package in AUR
 	case lib.SearchPkg || lib.SearchPkgAlias:
 		if flag.NArg() > 0 {
 			argumentPkg := flag.Arg(0)
@@ -74,7 +83,20 @@ func main() {
 			os.Exit(1)
 		}
 		return
-	// -i || --install
+
+	// Show detailed package information from AUR
+	case lib.PkgInfo || lib.PkgInfoAlias:
+		if flag.NArg() > 0 {
+			argumentPkg := flag.Arg(0)
+			lib.MainPkgInfo(argumentPkg)
+		} else {
+			fmt.Println("Please provide an argument with " + os.Args[1])
+			flag.Usage()
+			os.Exit(1)
+		}
+		return
+
+	// Install a package from AUR
 	case lib.InstallPkg || lib.InstallPkgAlias:
 		if flag.NArg() > 0 {
 			argumentPkg := flag.Arg(0)
@@ -85,7 +107,8 @@ func main() {
 			os.Exit(1)
 		}
 		return
-	// -check || --check
+
+	// Check for available updates without installing
 	case lib.CheckUpdatePkg:
 		if len(os.Args) > 2 {
 			fmt.Println("Options do not allowed together")
@@ -94,22 +117,28 @@ func main() {
 		}
 		if flag.NArg() <= 0 {
 			updateExists := false
+			// Get all installed AUR packages
 			packageMap := lib.ListPackages()
+
+			// Check each package for updates
 			for packageName, packageVersion := range packageMap {
-				newVersion, err := lib.GetLatestVersionFromAUR(packageName)
+				hasUpdate, newVersion, err := lib.CheckPackageUpdate(packageName, packageVersion)
 				if err != nil {
-					fmt.Println(err)
+					fmt.Println("Error checking update for", packageName, ":", err)
+					continue
 				}
-				if packageVersion != newVersion {
-					if len(newVersion) != 0 {
-						if !strings.Contains(newVersion, "${") {
-							fmt.Println("There is an update for the following packages:")
-							fmt.Printf("%s%s%s %s -> %s\n", lib.ColorLightRed, packageName, lib.ColorNone, packageVersion, newVersion)
-							updateExists = true
-						}
+
+				// Display packages with available updates
+				if hasUpdate {
+					if !updateExists {
+						fmt.Println("There is an update for the following packages:")
 					}
+					fmt.Printf("%s%s%s %s -> %s\n", lib.ColorLightRed, packageName, lib.ColorNone, packageVersion, newVersion)
+					updateExists = true
 				}
 			}
+
+			// No updates available
 			if !updateExists {
 				fmt.Println("There is nothing to do.")
 				fmt.Println("Have a good day!")
@@ -120,7 +149,8 @@ func main() {
 		fmt.Println(os.Args[1], "this flag do not need any argument")
 		flag.Usage()
 		return
-	// -u || --u [package]
+
+	// Update a package or all packages
 	case lib.UpdatePkg || lib.UpdatePkgAlias:
 		if lib.UpdateAllPkg {
 			updateExists := false
@@ -129,15 +159,18 @@ func main() {
 			if flag.NArg() == 0 {
 				packageMap := lib.ListPackages()
 				for packageName, packageVersion := range packageMap {
-					newVersion, err := lib.GetLatestVersionFromAUR(packageName)
+					hasUpdate, newVersion, err := lib.CheckPackageUpdate(packageName, packageVersion)
 					if err != nil {
-						fmt.Println(err)
+						fmt.Println("Error checking update for", packageName, ":", err)
+						continue
 					}
-					if packageVersion != newVersion {
-						fmt.Println("There is an update for the following packages:")
+					if hasUpdate {
+						if !updateExists {
+							fmt.Println("There is an update for the following packages:")
+						}
 						fmt.Printf("%s%s%s %s -> %s\n", lib.ColorRed, packageName, lib.ColorNone, packageVersion, newVersion)
 						if len(response) == 0 {
-							fmt.Print("Do you want to update all? (y/n)")
+							fmt.Print("Do you want to update all? (y/n) ")
 							fmt.Scan(&response)
 							if response == "y" || response == "Y" {
 								lib.BuildAndInstall(packageName, archDir)
@@ -155,7 +188,7 @@ func main() {
 			} else {
 				fmt.Println("Please provide -u --all without an argument")
 				flag.Usage()
-				os.Exit(1) // Exit the program or handle the case based on your application's requirements
+				os.Exit(1)
 			}
 		} else {
 			// If only -u flag is provided or -u flag is provided with an argument
@@ -164,7 +197,7 @@ func main() {
 				lib.BuildAndInstall(argumentPkg, archDir)
 			} else {
 				fmt.Println("Please provide an argument with -u or use -u --all")
-				os.Exit(1) // Exit the program or handle the case based on your application's requirements
+				os.Exit(1)
 			}
 		}
 		return
