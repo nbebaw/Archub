@@ -38,9 +38,10 @@ A lightweight and fast command-line AUR (Arch User Repository) helper written in
 ### Quick Install (without auto-completions)
 
 ```bash
-wget https://github.com/nbebaw/Archub/releases/download/v0.0.5/archub
+wget https://github.com/nbebaw/Archub/releases/download/v0.1.1/archub_Linux_x86_64.tar.gz
+tar -xvf archub_Linux_x86_64.tar.gz
 chmod +x archub
-sudo mv archub /usr/bin
+sudo mv archub /usr/local/bin
 ```
 
 ### Full Install (with Zsh auto-completions)
@@ -48,10 +49,10 @@ sudo mv archub /usr/bin
 ```bash
 mkdir archub_x86_64
 cd archub_x86_64
-wget https://github.com/nbebaw/Archub/releases/download/v0.0.5/archub_x86_64.tar.gz
-tar -xvf archub_x86_64.tar.gz
+wget https://github.com/nbebaw/Archub/releases/download/v0.1.1/archub_Linux_x86_64.tar.gz
+tar -xvf archub_Linux_x86_64.tar.gz
 chmod +x archub
-sudo mv archub /usr/bin
+sudo mv archub /usr/local/bin
 sudo mv LICENSE /usr/share/licenses/archub
 sudo mv auto_completions/zsh /usr/share/zsh/site-functions/_archub
 ```
@@ -61,8 +62,8 @@ sudo mv auto_completions/zsh /usr/share/zsh/site-functions/_archub
 ```bash
 git clone https://github.com/nbebaw/Archub.git
 cd Archub
-go build -ldflags "-X main.Version=v0.0.6" -o archub main.go
-sudo mv archub /usr/bin
+go build -ldflags "-X main.Version=v0.1.0" -o archub main.go
+sudo mv archub /usr/local/bin
 ```
 ## Usage
 
